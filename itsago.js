@@ -6,7 +6,7 @@
  * returns: string
  */
 let defaultMixin = function (value, interval) {
-    phrases = {
+    let phrases = {
         seconds: "just now",
         minute:  "about a minute ago",
         minutes: "%d minutes ago",
@@ -21,7 +21,7 @@ let defaultMixin = function (value, interval) {
     };
 
     /* Select the string and replace the interval values */
-    str = phrases[interval];
+    let str = phrases[interval];
     str = str.replace(/%d/i, value);
 
     return (str);
@@ -38,7 +38,7 @@ let itsago = function(el, datetime, mixin, sticky) {
         mixin = defaultMixin; 
     } else if (typeof mixin !== "function") {
         /* Mixin wasn't a function */
-        warnObject = {
+        let warnObject = {
             target: el
         };
 
@@ -48,7 +48,7 @@ let itsago = function(el, datetime, mixin, sticky) {
         mixin = defaultMixin; 
     }
 
-    intervals = {
+    let intervals = {
         seconds: "seconds",
         minute:  "minute",
         minutes: "minutes",
@@ -62,21 +62,17 @@ let itsago = function(el, datetime, mixin, sticky) {
         years:   "years"
     };
   
+
+    let time = new Date();
     if (!datetime) {
         /* Datetime parameter was not set */ 
         if (el) {
             /* Look for datetime value in element */    
-            elementTime = el.getAttribute("datetime"); 
+            let elementTime = el.getAttribute("datetime"); 
             if (elementTime) {
                 /* No datetime value found */
                 time = new Date(elementTime);
-            } else {
-                /* Datetime value found */
-                time = new Date();
             }
-        } else {
-            /* Use current datetime */
-            time = new Date();
         }
     } else {
         /* Use datetime parameter */
@@ -84,13 +80,13 @@ let itsago = function(el, datetime, mixin, sticky) {
     }
 
     /* Get declared time in seconds since Jan 1, 1970 */
-    declaredTime = time.getTime();
+    let declaredTime = time.getTime();
 
     /* Get current datetime in seconds since Jan 1, 1970*/
-    now = new Date();
+    let now = new Date();
 
     /* Difference in seconds */
-    timeDifference = now - parseInt(declaredTime);
+    let timeDifference = now - parseInt(declaredTime);
     let seconds = Math.floor(timeDifference / 1000);
 
     /* Calculate amounts of time */
@@ -104,16 +100,17 @@ let itsago = function(el, datetime, mixin, sticky) {
     
     let timeSince = intervals.seconds;
     
+    let value = 1;
     /* Loop through amounts of time */
     for (let i in amounts) {
         value = Math.floor(amounts[i]);
       
         if (value > 1) {
-            interval = i;
+            let interval = i;
             timeSince = intervals[i + "s"];
             break;
         } else if (value === 1) {
-            interval = i;
+            let interval = i;
             timeSince = intervals[i];
             break;
         }
