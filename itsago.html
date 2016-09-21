@@ -1,0 +1,61 @@
+
+    <time id="itsago1"></time> <br>
+    <time id="itsago2" datetime="2016-09-19 19:01:00"></time> <br />
+    <time id="itsago3"></time> <br>
+    <time id="itsago4"></time> <br>
+
+    <script src="polyglot.min.js"></script>
+    <script src="itsago.js"></script>
+
+    <script>
+        var el1 = document.getElementById('itsago1');
+        var el2 = document.getElementById('itsago2');
+        var el3 = document.getElementById('itsago3');
+        var el4 = document.getElementById('itsago4');
+
+        /* Polyglot.js phrases object */
+        espanolLibro = {
+            phrases: {
+                "seconds": "justo ahora",
+                "minutes": "hace %{minutes} minutos",
+                "hour": "hace una hora",
+                "hours": "hace %{hours} horas",
+                "day": "hace una dia",
+                "days": "hace %{days} dias",
+                "month": "hace una mes",
+                "months": "hace %{months} meses",
+                "year": "hace una año",
+                "years": "hace %{years} ans"
+            }
+        }
+
+        /* Polyglot.js mixin wrapper function */
+        var polyglotMixin = function(value, interval) {
+            var poly = new Polyglot(espanolLibro);
+            data = {}; data[interval] = value;
+            return poly.t(interval, data, interval)
+        }
+
+        /* Updates an element using a mixin */
+        itsago (el1, "2009-09-20", polyglotMixin)
+
+        /* Updates an element, uses datetime= value */
+        itsago (el2)
+
+        /* Returns a string */
+        console.log (itsago (null, "2009-09-20"))
+
+        /* Returns a string using a mixin */
+        console.log (itsago (null, "2009-09-20", polyglotMixin))
+
+        /* Throws an warning, invalid mixin */
+        itsago (el3, "2008-09-20", "Hello, World")
+
+        /* Updates an element, uses current time, stickies the datetime attr */
+        itsago (el4, null, null, sticky=true)
+
+        /* Updates every minute */
+        setInterval (function() {
+            itsago (el4);
+        }, 60000);
+    </script>
